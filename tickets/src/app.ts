@@ -1,5 +1,7 @@
 import express from 'express';
+import 'express-async-errors';
 import { errorHandler } from '@ticketing/common';
+
 import { createTicketRouter } from './routes/new';
 import { indexTicketRouter } from './routes/index';
 import { showTicketRouter } from './routes/show';

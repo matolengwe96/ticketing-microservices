@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import { validateRequest } from '@ticketing/common';
 import { Ticket } from '../models/ticket';
 
+
 const router = express.Router();
 
 router.post(
@@ -11,7 +12,7 @@ router.post(
     body('title').not().isEmpty().withMessage('Title is required'),
     body('price')
       .isFloat({ gt: 0 })
-      .withMessage('Price must be greater than 0')
+      .withMessage('Price must be greater than 0'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -19,7 +20,7 @@ router.post(
 
     const ticket = Ticket.build({
       title,
-      price
+      price,
     });
 
     await ticket.save();
