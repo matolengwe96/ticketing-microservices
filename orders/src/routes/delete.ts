@@ -5,14 +5,13 @@ import {
   OrderStatus,
   requireAuth,
 } from '@ticketing/common';
-
 import { Order } from '../models/order';
 
 const router = express.Router();
 
 router.delete(
   '/api/orders/:orderId',
-  requireAuth,
+  requireAuth as any,
   async (req: Request, res: Response) => {
     const order = await Order.findById(req.params.orderId);
 

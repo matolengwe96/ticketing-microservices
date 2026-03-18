@@ -1,19 +1,23 @@
 import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
-import { json } from 'express';
+import { json } from 'body-parser';
 import {
   currentUser,
   errorHandler,
   NotFoundError,
 } from '@ticketing/common';
 
+
 import { createOrderRouter } from './routes/new';
 import { indexOrderRouter } from './routes/index';
 import { showOrderRouter } from './routes/show';
 import { deleteOrderRouter } from './routes/delete';
 
+
+
 const app = express();
+
 app.set('trust proxy', true);
 app.use(json());
 
@@ -24,7 +28,16 @@ app.use(
   })
 );
 
-app.use(currentUser as any);
+app.use(currentUser);
+
+// TEMP DEBUG ROUTE
+app.get('/api/orders/debug', (req, res) => {
+  res.send({
+    session: req.session || null,
+    currentUser: req.currentUser || null,
+  });
+});
+
 app.use(createOrderRouter);
 app.use(indexOrderRouter);
 app.use(showOrderRouter);
