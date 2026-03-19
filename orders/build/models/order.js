@@ -24,6 +24,11 @@ const orderSchema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: 'Ticket',
     },
+    version: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
 }, {
     toJSON: {
         transform(doc, ret) {

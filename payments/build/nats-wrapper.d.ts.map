@@ -1,0 +1,1 @@
+{"version":3,"file":"nats-wrapper.d.ts","sourceRoot":"","sources":["../src/nats-wrapper.ts"],"names":[],"mappings":"AAAA,OAAO,IAAc,MAAM,qBAAqB,CAAC;AAEjD,cAAM,WAAW;IACf,OAAO,CAAC,OAAO,CAAC,CAAO;IAEvB,IAAI,MAAM,cAMT;IAED,OAAO,CAAC,SAAS,EAAE,MAAM,EAAE,QAAQ,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM;CAazD;AAED,eAAO,MAAM,WAAW,aAAoB,CAAC"}

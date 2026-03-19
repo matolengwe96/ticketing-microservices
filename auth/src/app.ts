@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieSession from 'cookie-session';
+import { currentUser } from '@ticketing/common';
 import { signupRouter } from './routes/signup';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -15,6 +16,8 @@ app.use(
     secure: false
   })
 );
+
+app.use(currentUser as any);
 
 app.use(signupRouter);
 app.use(signinRouter);

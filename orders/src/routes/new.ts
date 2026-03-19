@@ -7,10 +7,14 @@ import {
   OrderStatus,
   requireAuth,
   validateRequest,
+  Subject,
+  TicketUpdatedEvent,
+  OrderCreatedEvent,
 } from '@ticketing/common';
 
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
+import { natsWrapper } from '../nats-wrapper';
 
 interface AuthenticatedRequest extends Request {
   currentUser?: {
@@ -47,7 +51,7 @@ router.post(
     }
 
     const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds() + 15 * 60);
+    expiration.setSeconds(expiration.getSeconds() + 15 * 60); // 15 minutes
 
     if (!req.currentUser) {
       throw new NotAuthorizedError();
@@ -62,7 +66,52 @@ router.post(
 
     await order.save();
 
-    res.status(201).send(order);
+    // Update ticket with orderId
+    ticket.set({ orderId: order.id, version: ticket.version + 1 });
+    await ticket.save();
+
+    // Publish ticket updated event
+    const ticketEvent: TicketUpdatedEvent = {
+      subject: Subject.TicketUpdated,
+      data: {
+        id: ticket._id.toString(),
+        title: ticket.title,
+        price: ticket.price,
+        userId: ticket.userId,
+        version: ticket.version,
+        orderId: ticket.orderId,
+      },
+    };
+
+    // Publish order created event
+    const orderEvent: OrderCreatedEvent = {
+      subject: Subject.OrderCreated,
+      data: {
+        id: order.id,
+        version: 0, // We'll add version tracking later if needed
+        status: OrderStatus.Created,
+        userId: order.userId,
+        expiresAt: order.expiresAt.toISOString(),
+        ticket: {
+          id: order.ticket._id.toString(),
+          price: order.ticket.price,
+        },
+      },
+    };
+
+    natsWrapper.client.publish(
+      Subject.TicketUpdated,
+      JSON.stringify(ticketEvent.data),
+      () => {
+        natsWrapper.client.publish(
+          Subject.OrderCreated,
+          JSON.stringify(orderEvent.data),
+          () => {
+            res.status(201).send(order);
+          }
+        );
+      }
+    );
   }
 );
 

@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
+import { TicketCreatedListener } from './events/ticket-created-listener';
+import { OrderCancelledListener } from './events/order-cancelled-listener';
+import { PaymentCreatedListener } from './events/payment-created-listener';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -29,9 +32,13 @@ const start = async () => {
   }
 
   try {
+    const clientId = `${process.env.NATS_CLIENT_ID}-${Math.floor(
+      Math.random() * 100000
+    )}`;
+
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
-      process.env.NATS_CLIENT_ID,
+      clientId,
       process.env.NATS_URL
     );
 
@@ -39,6 +46,10 @@ const start = async () => {
       console.log('NATS connection closed!');
       process.exit();
     });
+
+    new TicketCreatedListener(natsWrapper.client).listen();
+    new OrderCancelledListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());

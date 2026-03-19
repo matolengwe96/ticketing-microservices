@@ -16,6 +16,17 @@ const ticketSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
+    userId: {
+        type: String,
+        required: true,
+    },
+    orderId: {
+        type: String,
+    },
+    version: {
+        type: Number,
+        default: 0,
+    },
 }, {
     toJSON: {
         transform(doc, ret) {
@@ -29,6 +40,9 @@ ticketSchema.statics.build = (attrs) => {
         _id: attrs.id,
         title: attrs.title,
         price: attrs.price,
+        userId: attrs.userId,
+        version: attrs.version,
+        orderId: attrs.orderId,
     });
 };
 ticketSchema.methods.isReserved = async function () {

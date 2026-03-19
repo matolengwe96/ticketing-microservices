@@ -3,11 +3,15 @@ import mongoose from 'mongoose';
 interface TicketAttrs {
   title: string;
   price: number;
+  userId: string;
 }
 
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  userId: string;
+  version: number;
+  orderId?: string;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -23,6 +27,17 @@ const ticketSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
+    },
+    userId: {
+      type: String,
+      required: true,
+    },
+    orderId: {
+      type: String,
+    },
+    version: {
+      type: Number,
+      default: 0,
     },
   },
   {
