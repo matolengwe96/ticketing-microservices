@@ -15,12 +15,56 @@ Core architecture patterns used:
 
 ## Services
 
-- `auth`: signup, signin, signout, and current user identity
-- `tickets`: ticket creation and listing
-- `orders`: ticket reservation and order lifecycle
-- `payments`: Stripe charge processing and payment recording
-- `expiration`: order timeout processing and cancellation
-- `common`: shared TypeScript package with errors, middleware, and event types
+| Service | Port | Description |
+|---------|------|-------------|
+| `auth` | 3001 | Signup, signin, signout, and current user identity |
+| `tickets` | 3000 | Ticket creation and listing |
+| `orders` | 3002 | Ticket reservation and order lifecycle |
+| `payments` | 3004 | Stripe charge processing and payment recording |
+| `expiration` | 3003 | Order timeout processing and automatic cancellation |
+| `client` | 3500 | Next.js frontend (see below) |
+| `common` | — | Shared TypeScript package: errors, middleware, event types |
+
+## Running the Frontend
+
+The `client` folder is a Next.js 14 app that proxies all API calls to the right backend service. No CORS or API gateway setup required.
+
+```bash
+cd client
+npm install
+npm run dev        # starts on http://localhost:3500
+```
+
+All services must be running before using the frontend. Start each one in a separate terminal:
+
+```bash
+# Terminal 1 – start NATS Streaming
+.\nats-server-v2.10.18-windows-amd64\nats-server.exe -p 4222
+
+# Terminal 2 – Auth service
+cd auth && npm run start
+
+# Terminal 3 – Tickets service
+cd tickets && npm run dev
+
+# Terminal 4 – Orders service
+cd orders && npm run start
+
+# Terminal 5 – Payments service
+cd payments && npm run start
+
+# Terminal 6 – Expiration service
+cd expiration && npm run start
+
+# Terminal 7 – Frontend
+cd client && npm run dev
+```
+
+Then open http://localhost:3500 in your browser.
+
+### Test Payment Token
+
+The payment page is pre-filled with `tok_visa` — this is a Stripe test-mode token that simulates a successful VISA charge. You need a Stripe account with the secret key set in `payments/.env` (`STRIPE_KEY=sk_test_...`).
 
 ## Event Flow
 
