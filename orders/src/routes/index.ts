@@ -1,15 +1,30 @@
 import express, { Request, Response } from 'express';
-import { requireAuth } from '@ticketing/common';
+import { NotAuthorizedError, requireAuth } from '@ticketing/common';
 import { Order } from '../models/order';
+
+interface AuthenticatedRequest extends Request {
+  currentUser?: {
+    id: string;
+    email: string;
+  };
+}
 
 const router = express.Router();
 
-router.get('/api/orders', requireAuth as any, async (req: Request, res: Response) => {
-  const orders = await Order.find({
-    userId: req.currentUser!.id,
-  }).populate('ticket');
+router.get(
+  '/api/orders',
+  requireAuth,
+  async (req: AuthenticatedRequest, res: Response) => {
+if (!req.currentUser) {
+    throw new NotAuthorizedError();
+  }
 
-  res.send(orders);
-});
+  const orders = await Order.find({
+      userId: req.currentUser.id,
+    }).populate('ticket');
+
+    res.send(orders);
+  }
+);
 
 export { router as indexOrderRouter };

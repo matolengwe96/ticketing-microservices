@@ -30,7 +30,7 @@ router.post(
         id: user._id,
         email: user.email
       },
-      'secret'
+      process.env.JWT_KEY!
     );
 
     // Store JWT in session

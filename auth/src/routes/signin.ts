@@ -32,7 +32,7 @@ router.post(
         id: existingUser._id,
         email: existingUser.email
       },
-      'secret'
+      process.env.JWT_KEY!
     );
 
     req.session = {
