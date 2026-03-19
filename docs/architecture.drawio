@@ -1,0 +1,129 @@
+<mxfile host="app.diagrams.net" modified="2026-03-19T00:00:00.000Z" agent="GitHub Copilot" version="24.7.17" type="device">
+  <diagram id="tickethub-architecture" name="TicketHub Architecture">
+    <mxGraphModel dx="1420" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="TicketHub Microservices Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legendTitle" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="930" width="120" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="legendSync" value="Solid: HTTP/API call" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="960" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legendAsync" value="Dashed: NATS event" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="984" width="220" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="user" value="User" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="330" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="stripe" value="Stripe API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1820" y="330" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="nats" value="NATS Streaming" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="110" width="380" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="auth" value="Auth Service&#xa;Port 3001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="300" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tickets" value="Tickets Service&#xa;Port 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="300" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="orders" value="Orders Service&#xa;Port 3002" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="300" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="payments" value="Payments Service&#xa;Port 3004" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="300" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="expiration" value="Expiration Service&#xa;Port 3003" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="300" width="210" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="authDb" value="Auth DB" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="295" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ticketsDb" value="Tickets DB" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="535" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ordersDb" value="Orders DB" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="775" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="paymentsDb" value="Payments DB" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eUserAuth" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="user" target="auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUserTickets" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="user" target="tickets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUserOrders" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="user" target="orders">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUserPayments" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="user" target="payments">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ePaymentsStripe" value="Charge API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" source="payments" target="stripe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eAuthDb" value="reads/writes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;" edge="1" parent="1" source="auth" target="authDb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eTicketsDb" value="reads/writes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;" edge="1" parent="1" source="tickets" target="ticketsDb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eOrdersDb" value="reads/writes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;" edge="1" parent="1" source="orders" target="ordersDb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ePaymentsDb" value="reads/writes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;" edge="1" parent="1" source="payments" target="paymentsDb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eTicketsToNats" value="TicketCreated, TicketUpdated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="tickets" target="nats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNatsToOrdersFromTickets" value="TicketCreated, TicketUpdated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="nats" target="orders">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eOrdersToNatsCreated" value="OrderCreated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="orders" target="nats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNatsToExpiration" value="OrderCreated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="nats" target="expiration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eExpirationToNats" value="OrderCancelled" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="expiration" target="nats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNatsToOrdersFromExpiration" value="OrderCancelled" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="nats" target="orders">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ePaymentsToNats" value="PaymentCreated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="payments" target="nats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNatsToOrdersFromPayments" value="PaymentCreated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="nats" target="orders">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eOrdersToNatsUpdated" value="OrderUpdated" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="orders" target="nats">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNatsToTicketsFromOrders" value="OrderUpdated, OrderCancelled" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;" edge="1" parent="1" source="nats" target="tickets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
